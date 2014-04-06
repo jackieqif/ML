@@ -31,15 +31,7 @@ X = [ones(m, 1) X];
 %       
 
 initial_p = X * all_theta';
-max_p = max(initial_p, [], 2);
-
-% find index of max_p in initial_p in each row
-for i = 1: m
-	p(i) = find(initial_p(i, :) == max_p(i));
-endfor
-
-
-
+[max_p, p] = max(initial_p, [], 2);
 
 
 % =========================================================================
