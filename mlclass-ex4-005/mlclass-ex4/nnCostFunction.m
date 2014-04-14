@@ -39,10 +39,10 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
-% Part 1 code:
+% Jackie Part 1 code:
 
-% convert y into 10 * m demensional matrix, with each column represent a 10 dimensional y vector:
-y_matrix = zeros(10, m);
+% convert y into num_labels * m demensional matrix, with each column represent a num_labels dimension y vector:
+y_matrix = zeros(num_labels, m);
 for y_index = 1:m
 	y_matrix(y(y_index), y_index) = 1;
 endfor
@@ -60,8 +60,11 @@ a = [ones(1, size(a)(2)); a];
 h = sigmoid(Theta2 * a); 
 
 % Calculate J:
+J = (1 / m) .* sum(sum(-y_matrix .* log(h) - ((1 - y_matrix) .* log(1-h))));
 
-J = (1 / m) .* sum(-y .* log(h) - ((1-y) .* log(1-h)));
+% Adding regularization:
+reg = lambda / (2 * m) * (sum((sum(Theta1(:, 2:end) .^ 2))) + sum(sum(Theta2(:, 2:end) .^ 2)));
+J = J + reg;
 
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
@@ -79,6 +82,11 @@ J = (1 / m) .* sum(-y .* log(h) - ((1-y) .* log(1-h)));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+% Jackie Part2 code:
+
+
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
