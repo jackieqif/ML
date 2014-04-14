@@ -84,8 +84,30 @@ J = J + reg;
 %
 % Jackie Part2 code:
 
+DELTA_1 = zeros(size(Theta1));
+DELTA_2 = zeros(size(Theta2));
 
+for t = 1: m
+	% feed forwarding:
+	a_1 = X(t, :);
+	y_vec = y_matrix(:, t);
+	% calculate hidden layer 
+	a_2 = sigmoid(Theta1 * a_1');
+	a_2 = [1; a_2];
+	% calculate output layer
+	a_3 = sigmoid(Theta2 * a_2);
+	% dealta3
+	delta_3 = a_3 - y_vec;
 
+	% back propagation:
+	delta_2 = (Theta2' * delta_3) .* sigmoidGradient(a_2);
+	delta_2 = delta_2(2:end);
+
+	DELTA_1 = DELTA_1 + delta_2 * a_1;
+	DELTA_2 = DELTA_2 + delta_3 * a_2';
+
+Theta1 = (1 / m) .* DELTA_1;
+Theta2 = (1 / m) .* DELTA_2;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
