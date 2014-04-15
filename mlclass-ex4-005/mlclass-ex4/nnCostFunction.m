@@ -88,26 +88,38 @@ DELTA_1 = zeros(size(Theta1));
 DELTA_2 = zeros(size(Theta2));
 
 for t = 1: m
-	% feed forwarding:
-	a_1 = X(t, :);
+	% feed forwarding (note X matrix already have bias unit):
+	a_1 = X(t, :)';
 	y_vec = y_matrix(:, t);
 	% calculate hidden layer 
-	a_2 = sigmoid(Theta1 * a_1');
+	a_2 = sigmoid(Theta1 * a_1);
+	% Adding bias unit, size a_2: 26, 1
 	a_2 = [1; a_2];
-	% calculate output layer
+	% calculate output layer        
 	a_3 = sigmoid(Theta2 * a_2);
-	% dealta3
-	delta_3 = a_3 - y_vec;
 
 	% back propagation:
-	delta_2 = (Theta2' * delta_3) .* sigmoidGradient(a_2);
+	% dalta3, size:10, 1
+	delta_3 = a_3 - y_vec;
+
+	% delta2, size: 26, 1
+	z_2 = Theta1 * a_1;
+	z_2 = [1; z_2];
+	delta_2 = ((Theta2') * delta_3) .* sigmoidGradient(z_2);
+	% delta2, size: 25, 1
 	delta_2 = delta_2(2:end);
 
-	DELTA_1 = DELTA_1 + delta_2 * a_1;
+	% accumulate DELTA
+	% DELTA1 size: 25, 401
+	DELTA_1 = DELTA_1 + delta_2 * a_1';
+	% DELTA2 size: 10, 26
 	DELTA_2 = DELTA_2 + delta_3 * a_2';
 
-Theta1 = (1 / m) .* DELTA_1;
-Theta2 = (1 / m) .* DELTA_2;
+endfor
+
+% calculate gradient
+Theta1_grad = (1 / m) .* DELTA_1;
+Theta2_grad = (1 / m) .* DELTA_2;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -116,21 +128,6 @@ Theta2 = (1 / m) .* DELTA_2;
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
