@@ -119,7 +119,16 @@ endfor
 
 % calculate gradient
 Theta1_grad = (1 / m) .* DELTA_1;
+% Adding regularization for Theta1 gradient:
+grad_reg_1 = (lambda / m) .* Theta1;
+grad_reg_1(:, 1) = 0;
+Theta1_grad = Theta1_grad + grad_reg_1;
+
+% Adding regularization for Theta2 gradient:
 Theta2_grad = (1 / m) .* DELTA_2;
+grad_reg_2 = (lambda / m) .* Theta2;
+grad_reg_2(:, 1) = 0;
+Theta2_grad = Theta2_grad + grad_reg_2;
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -129,7 +138,7 @@ Theta2_grad = (1 / m) .* DELTA_2;
 %               and Theta2_grad from Part 2.
 %
 
-
+% Jackie code: refer to line 120~131.
 
 
 % -------------------------------------------------------------
