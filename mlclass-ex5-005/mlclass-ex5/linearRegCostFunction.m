@@ -20,8 +20,13 @@ grad = zeros(size(theta));
 %
 
 
+% cost without regularization
+J = (1 / (2 * m)) .* sum((X * theta - y) .^2);
 
+% regularization
+J_regularization = (lambda / (2 * m)) .* sum(theta(2:end) .^ 2);
 
+J = J + J_regularization;
 
 
 
@@ -31,6 +36,11 @@ grad = zeros(size(theta));
 
 
 % =========================================================================
+grad = (1 / m) .* ((X * theta - y)' * X)';
+grad_regularization = (lambda / m) .* theta;
+grad_regularization(1) = 0;
+
+grad = grad + grad_regularization;
 
 grad = grad(:);
 

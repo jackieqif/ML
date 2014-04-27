@@ -54,7 +54,14 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
-
+for i = 1:m
+	% Compute theta
+	training_X = X(1:i, :);
+	training_y = y(1:i, :);
+	[theta] = trainLinearReg(training_X, training_y, lambda);
+	% Use calculate training error and cv error
+	[error_train(i), grad_train] = linearRegCostFunction(training_X, training_y, theta, 0);
+	[error_val(i), grad_val] = linearRegCostFunction(Xval, yval, theta, 0);
 
 
 
