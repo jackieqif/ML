@@ -25,7 +25,14 @@ sigma = 0.3;
 
 
 
+% loop C vec
+% loop sigma vec
 
+% calculate predicted y for Xval using svmPredict.m
+% calculate sum of squared error from preditcted y and yval.
+% log error, C(i), sigma(j) into error_matrix
+
+% sort error_matrix by error and return C, sigma.
 
 
 
