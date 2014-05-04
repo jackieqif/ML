@@ -23,17 +23,23 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+candidates = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
+error_vec = zeros(length(candidates) .^ 2, 3);
+error_vec_index = 1;
 
-
-% loop C vec
-% loop sigma vec
-
-% calculate predicted y for Xval using svmPredict.m
-% calculate sum of squared error from preditcted y and yval.
-% log error, C(i), sigma(j) into error_matrix
-
-% sort error_matrix by error and return C, sigma.
-
+for i=1:length(candidates)
+  for j=1:length(candidates)
+    C = candidates(i);
+    sigma = candidates(j);
+    model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
+    pred = svmPredict(model, Xval);
+    error_vec(error_vec_index, :) = [mean(double(pred ~= yval)), C, sigma];
+    error_vec_index = error_vec_index + 1;
+  end
+end
+error_vec = sortrows(error_vec, 1)
+C = error_vec(1, 2); 
+sigma = error_vec(1, 3);
 
 
 % =========================================================================
