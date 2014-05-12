@@ -25,7 +25,8 @@ idx = zeros(size(X,1), 1);
 distance_matrix = zeros(size(X, 1), K);
 
 for k_idx = 1:K
-	distance = sum((X - centroids(k_idx, :)) .^ 2, 2);
+	dist_value = bsxfun(@minus, X, centroids(k_idx, :));
+	distance = sum(dist_value .^ 2, 2);
 	distance_matrix(:, k_idx) = distance;
 end
 
