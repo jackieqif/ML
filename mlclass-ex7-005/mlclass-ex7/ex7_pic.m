@@ -6,7 +6,7 @@ clear ; close all; clc
 fprintf('\nRunning K-Means clustering on pixels from an image.\n\n');
 
 %  Load an image of a bird
-A = double(imread('222.JPG'));
+A = double(imread('bird_small.png'));
 
 A = A / 255; % Divide by 255 so that all values are in the range 0 - 1
 
@@ -20,7 +20,7 @@ X = reshape(A, img_size(1) * img_size(2), 3);
 
 % Run your K-Means algorithm on this data
 % You should try different values of K and max_iters here
-K = 16; 
+K = 256; 
 max_iters = 10;
 
 for compression_round = 1:20
