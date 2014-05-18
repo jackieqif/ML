@@ -20,3 +20,7 @@ p = (2 * pi) ^ (- k / 2) * det(Sigma2) ^ (-0.5) * ...
     exp(-0.5 * sum(bsxfun(@times, X * pinv(Sigma2), X), 2));
 
 end
+
+
+% 1 / ((2 * pi)^(n / 2) * det(sigma) ^ (1 / 2) ...
+% 	* exp(- 0.5 * (X - mu)' * pinv(sigma) * (X -mu))
