@@ -42,8 +42,33 @@ Theta_grad = zeros(size(Theta));
 
 
 
+error = (X * (Theta') - Y);
+
+% Only consider error for user rated movies.
+idx = find(R ==1);
+J = 0.5 * sum(error(idx) .^ 2);
+reg = 0.5 * lambda * sum(sum(Theta .^ 2)) + 0.5 * lambda * sum(sum(X .^ 2));
+J = J + reg;
+
+for i = 1:num_movies
+	idx = find(R(i, :)==1);
+	Theta_temp = Theta(idx,:);
+	Y_temp = Y(i, idx);
+	X_grad(i, :) = ((X(i, :) * (Theta_temp') - Y_temp) * Theta_temp)';
+	X_grad_reg = lambda * X(i, :);
+	X_grad(i, :) = X_grad(i, :) + X_grad_reg;
+end
 
 
+
+for j = 1:num_users
+	idx = find(R(:, j)==1);
+	X_temp = X(idx,:);
+	Y_temp = Y(idx, j);
+	Theta_grad(j, :) = ((X_temp * (Theta(j,:)') - Y_temp)' * X_temp);
+	Theta_grad_reg = lambda * Theta(j, :);
+	Theta_grad(j, :) = Theta_grad(j,:) + Theta_grad_reg;
+end
 
 
 
